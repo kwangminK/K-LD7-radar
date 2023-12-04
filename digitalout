@@ -1,0 +1,45 @@
+#include <Arduino.h>
+
+// Digital output pins
+const int detectionPin = 4;   // Teensy 4.1 pin 4
+const int directionPin = 16;  // Teensy 4.1 pin 16
+const int anglePin = 17;      // Teensy 4.1 pin 17
+const int rangePin = 10;      // Teensy 4.1 pin 10
+
+void setup() {
+  // Set digital input pins
+  pinMode(detectionPin, INPUT);
+  pinMode(directionPin, INPUT);
+  pinMode(anglePin, INPUT);
+  pinMode(rangePin, INPUT);
+
+  // Serial communication
+  Serial.begin(9600);
+  Serial.println("Teensy 4.1 initialized.");
+}
+
+void loop() {
+  // Read digital outputs
+  int detection = digitalRead(detectionPin);
+  int direction = digitalRead(directionPin);
+  int angle = digitalRead(anglePin);
+  int range = digitalRead(rangePin);
+
+  // Print information to Serial Monitor
+  Serial.print("Detection: ");
+  Serial.println(detection == HIGH ? "Target detected" : "No target");
+
+  if (detection == HIGH) {
+    Serial.print("Direction: ");
+    Serial.println(direction == HIGH ? "Forward/approaching movement" : "Backward/receding movement");
+
+    Serial.print("Angle: ");
+    Serial.println(angle == HIGH ? "Target on the right side" : "Target on the left side");
+
+    Serial.print("Range: ");
+    Serial.println(range == HIGH ? "Target distance lower than 1m" : "Target distance higher than 1m");
+  }
+
+  // Add delay for readability
+  delay(1000);
+}
